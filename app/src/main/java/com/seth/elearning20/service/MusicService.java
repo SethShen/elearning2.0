@@ -1,6 +1,7 @@
 package com.seth.elearning20.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
@@ -8,7 +9,12 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.seth.elearning20.ListenPage;
+import com.seth.elearning20.info.MusicInfo;
+import com.seth.elearning20.info.MusicList;
+
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Seth on 2017/5/2.
@@ -16,8 +22,17 @@ import java.io.IOException;
 
 public class MusicService extends Service {
     public MediaPlayer mMediaPlayer;
+    public List<MusicInfo> mMusicInfos;
+    public static final String MUSIC_PLAY = "music_play_key";
     public boolean tag = false;
     private String Url = null;
+    private int musicId;
+
+    public static Intent newIntent(Context packageContext, int music_id){
+        Intent intent = new Intent(packageContext, MusicService.class);
+        intent.putExtra(MUSIC_PLAY, music_id);
+        return intent;
+    }
 
     public MusicService(){
     }
@@ -25,6 +40,46 @@ public class MusicService extends Service {
     public class MyBinder extends Binder {
         public MusicService getService(){
             return MusicService.this;
+        }
+
+        public void nextMusic(){
+            musicId++;
+            if(musicId == mMusicInfos.size())
+                musicId = 0;
+            if(mMediaPlayer != null){
+                mMediaPlayer.stop();
+                mMediaPlayer.release();
+            }
+            try {
+                mMediaPlayer = new MediaPlayer();
+                Url = mMusicInfos.get(musicId).getUrl();
+                mMediaPlayer.setDataSource(Url);
+                mMediaPlayer.prepare();
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void lastMusic(){
+            musicId--;
+            if(musicId < 0)
+            musicId = mMusicInfos.size()-1;
+            if(mMediaPlayer != null){
+                mMediaPlayer.stop();
+                mMediaPlayer.release();
+            }
+            try {
+                mMediaPlayer = new MediaPlayer();
+                Url = mMusicInfos.get(musicId).getUrl();
+                mMediaPlayer.setDataSource(Url);
+                mMediaPlayer.prepare();
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     public MyBinder binder = new MyBinder();
@@ -44,8 +99,10 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("MusicService","onStartCommand");
+        mMusicInfos = MusicList.get().getMusicInfos();
         String url = Url;
-        Url = intent.getStringExtra("player");
+        musicId = intent.getIntExtra(MUSIC_PLAY,0);
+        Url = mMusicInfos.get(musicId).getUrl();
         if(!Url.equals(url)){
                 if(mMediaPlayer != null){
                     mMediaPlayer.stop();

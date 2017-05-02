@@ -23,6 +23,9 @@ public class MusicList extends FragmentActivity {
         }
         return sMusicList;
     }
+    public static MusicList get(){
+        return sMusicList;
+    }
 
     public static void MusicRemove(String Title){
         int index;

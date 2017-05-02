@@ -23,15 +23,18 @@ import com.seth.elearning20.info.MusicList;
 import com.seth.elearning20.service.MusicService;
 
 import java.io.IOException;
+import java.util.List;
+
 /**
  * Created by Seth on 2017/4/27.
  */
 
-public class ListenPage extends Activity{
+public class ListenPage extends Activity {
     private static final String EXTRA_MUSIC_ID = "playerpage";
     private SeekBar mSeekBar;
     private boolean isPrepared;
     private boolean tag2 = false;
+    private TextView mMusicTitle;
     private TextView mAllTimeTextView;
     private TextView mTimeTextView;
     private ImageView mPlayOrPause;
@@ -39,8 +42,10 @@ public class ListenPage extends Activity{
     private ImageView mLast;
     private ImageView likes;
     private ImageView delete;
+    private List<MusicInfo> mMusicInfos;
     private MusicInfo mMusicInfo;
     private MusicService mMusicService;
+    private int position;
 
     public static Intent newIntent(Context packageContext, int music_id){
         Intent intent = new Intent(packageContext, ListenPage.class);
@@ -61,8 +66,7 @@ public class ListenPage extends Activity{
 
 // 在 Activity中调用 bindService 保持与Service 的通信
     private void bindServiceConnection(){
-        Intent intent  = new Intent(ListenPage.this, MusicService.class);
-        intent.putExtra("player",mMusicInfo.getUrl());
+        Intent intent = MusicService.newIntent(ListenPage.this, position);
         startService(intent);
         bindService(intent,serviceConnection,this.BIND_AUTO_CREATE);
     }
@@ -85,14 +89,17 @@ public class ListenPage extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         Intent intent = getIntent();
-        int position = (int)intent.getSerializableExtra(EXTRA_MUSIC_ID);
+        position = (int)intent.getSerializableExtra(EXTRA_MUSIC_ID);
 
-        mMusicInfo = MusicList.get(this).getMusicInfos().get(position);
+        mMusicInfos = MusicList.get(this).getMusicInfos();
+        mMusicInfo = mMusicInfos.get(position);
         FindViewById();
         bindServiceConnection();
         myListener();
-
         mAllTimeTextView.setText(MusicAdapter.formatTime(mMusicInfo.getDuration()).toString());
+        mMusicTitle.setText(mMusicInfo.getTitle());                         //设置文章标题
+        //mAllTimeTextView.setText(MusicAdapter.formatTime(mMusicService.mMediaPlayer.getDuration()));    //设置进度条时间
+
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -103,7 +110,6 @@ public class ListenPage extends Activity{
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
@@ -121,8 +127,9 @@ public class ListenPage extends Activity{
             mTimeTextView.setText(MusicAdapter.formatTime(mMusicService.mMediaPlayer.getCurrentPosition()));
             mSeekBar.setProgress(mMusicService.mMediaPlayer.getCurrentPosition());
             mSeekBar.setMax(mMusicService.mMediaPlayer.getDuration());
-            mAllTimeTextView.setText(MusicAdapter.formatTime(mMusicService.mMediaPlayer.getDuration()));
             mHandler.postDelayed(mRunnable,200);
+            mAllTimeTextView.setText(MusicAdapter.formatTime(mMusicService.mMediaPlayer.getDuration()));    //设置进度条时间
+
         }
     };
 
@@ -133,6 +140,9 @@ public class ListenPage extends Activity{
         mPlayOrPause = (ImageView) findViewById(R.id.pause);
         mNext = (ImageView) findViewById(R.id.next_music);
         mLast = (ImageView) findViewById(R.id.last_music);
+        mMusicTitle = (TextView) findViewById(R.id.music_title);
+        likes = (ImageView) findViewById(R.id.music_like);
+        delete = (ImageView) findViewById(R.id.music_delete);
     }
     private void myListener() {
         ImageView imageView = (ImageView) findViewById(R.id.album);
@@ -167,6 +177,44 @@ public class ListenPage extends Activity{
                 }
             }
 
+        });
+
+        mNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position++;
+                if(position==mMusicInfos.size()){
+                    position = 0;
+                }
+                if(tag2 == false){
+                    mHandler.post(mRunnable);
+                    tag2 = true;
+                }
+                mMusicInfo = mMusicInfos.get(position);
+                mMusicService.binder.nextMusic();
+                mMusicTitle.setText(mMusicInfo.getTitle());
+                animator.start();
+                mPlayOrPause.setImageResource(R.drawable.ic_pause_music);
+            }
+        });
+
+        mLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position--;
+                if(position<0){
+                    position = mMusicInfos.size()-1;
+                }
+                if(tag2 == false){
+                    mHandler.post(mRunnable);
+                    tag2 = true;
+                }
+                mMusicInfo = mMusicInfos.get(position);
+                mMusicService.binder.lastMusic();
+                mMusicTitle.setText(mMusicInfo.getTitle());
+                animator.start();
+                mPlayOrPause.setImageResource(R.drawable.ic_pause_music);
+            }
         });
 
     }
