@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#696969</color>
+    <color name="black">#000000</color>
+    <color name="softgray">#CCCCCC</color>
+    <color name="lightblue">#5900BFFF</color>
+
+    <!--登陆界面颜色-->
+    <color name="softwhite">#DDE1EE</color>
+    <color name="lightgray">#D8A9A9A9</color>
+    <color name="darkgray">#A9A9A9</color>
+    <color name="darkskycolor">#00BFFF</color>
+</resources>

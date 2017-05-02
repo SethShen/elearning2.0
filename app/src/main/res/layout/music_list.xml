@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/music_list">
+
+    <TextView
+        android:id="@+id/music_title"
+        android:text="音乐名称"
+        android:textSize="18dp"
+        android:textColor="#110000"
+        android:layout_width="wrap_content"
+        android:maxWidth="180dp"
+        android:lines="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp"
+        />
+
+    <ImageView
+        android:id="@+id/to_music"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_more"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="5dp"
+        />
+    <TextView
+        android:id="@+id/album_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/music_title"
+        android:layout_toLeftOf="@id/to_music"
+        android:textSize="18dp"
+        android:lines="1"
+        android:textColor="@color/darkgray"
+        android:text="（专辑名）"
+        android:layout_marginTop="7dp"/>
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="180dp"
+        android:lines="1"
+        android:layout_below="@id/music_title"
+        android:layout_marginLeft="25dp"
+        android:text="作者"
+        android:layout_marginBottom="6dp"/>
+
+    <TextView
+        android:id="@+id/num_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/music_title"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="90dp"
+        android:text="打赏数"
+
+
+        />
+
+</RelativeLayout>

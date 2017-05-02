@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/raido_time"
+        android:layout_marginTop="30dp"
+        android:padding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="50dp"
+        android:text="00:00:00"
+        android:background="@drawable/redio_clock"/>
+
+    <ImageView
+        android:id="@+id/start_pause"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_play_music"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/raido_time"
+        android:layout_marginTop="40dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@id/start_pause"
+        android:layout_marginTop="15dp"
+        android:background="@color/softwhite"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/start_pause"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

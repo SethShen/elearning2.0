@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/album"
+        android:layout_marginTop="30dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/player1"
+        app:civ_border_width="35dp"
+        app:civ_border_color="#220000"/>
+
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/album"
+        android:layout_marginLeft="80dp"
+        android:src="@drawable/ic_my_like"
+        android:layout_marginTop="20dp"
+        />
+
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/album"
+        android:layout_marginRight="80dp"
+        android:src="@drawable/ic_delete"
+        android:layout_marginTop="20dp"
+        />
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/album"
+        android:layout_marginTop="70dp"
+        android:max="100"
+        />
+    <TextView
+        android:id="@+id/now_time"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/seekbar"
+        android:layout_alignTop="@id/seekbar"
+        android:text="00:00"
+        android:gravity="right"
+        android:layout_marginTop="2dp"/>
+
+    <TextView
+        android:id="@+id/total_time"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/seekbar"
+        android:layout_alignTop="@id/seekbar"
+        android:text="00:00"
+        android:gravity="left"
+        android:layout_marginTop="2dp"/>
+
+    <ImageView
+        android:id="@+id/last_music"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/seekbar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="70dp"
+        android:src="@drawable/ic_last_music"/>
+    <ImageView
+        android:id="@+id/next_music"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/seekbar"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="70dp"
+        android:src="@drawable/ic_next_music"/>
+    <ImageView
+        android:id="@+id/pause"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/seekbar"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_play_music"/>
+
+
+</RelativeLayout>

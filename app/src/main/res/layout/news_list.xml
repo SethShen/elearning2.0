@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/text_recyclerlist"
+              android:background="@drawable/news_list">
+
+    <ImageView
+        android:id="@+id/news_img"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:paddingTop="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:src="@mipmap/login_im"/>
+
+    <TextView
+        android:id="@+id/news_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp"
+        android:layout_toRightOf="@id/news_img"
+        android:textSize="22dp"
+        android:lines="1"
+        android:textColor="@color/black"
+        android:text="新闻标题"/>
+
+    <TextView
+        android:id="@+id/news_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/news_img"
+        android:paddingRight="10dp"
+        android:text="新闻日期"/>
+
+    <TextView
+        android:id="@+id/news_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新闻评论"
+        android:layout_toRightOf="@id/news_img"
+        android:layout_alignBottom="@id/news_img"
+        android:paddingLeft="10dp"/>
+</RelativeLayout>

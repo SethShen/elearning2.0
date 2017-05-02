@@ -1,0 +1,2 @@
+include ':app', ':circleimageview'
+project(':circleimageview').projectDir = new File('app/libs/circleimageview')
