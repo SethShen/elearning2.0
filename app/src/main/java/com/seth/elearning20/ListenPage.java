@@ -21,6 +21,7 @@ import com.seth.elearning20.adapter.MusicAdapter;
 import com.seth.elearning20.info.MusicInfo;
 import com.seth.elearning20.info.MusicList;
 import com.seth.elearning20.service.MusicService;
+import com.seth.elearning20.sqlite.SqlDao;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,7 +42,7 @@ public class ListenPage extends Activity {
     private ImageView mNext;
     private ImageView mLast;
     private ImageView likes;
-    private ImageView delete;
+    private ImageView downland;
     private List<MusicInfo> mMusicInfos;
     private MusicInfo mMusicInfo;
     private MusicService mMusicService;
@@ -142,7 +143,12 @@ public class ListenPage extends Activity {
         mLast = (ImageView) findViewById(R.id.last_music);
         mMusicTitle = (TextView) findViewById(R.id.music_title);
         likes = (ImageView) findViewById(R.id.music_like);
-        delete = (ImageView) findViewById(R.id.music_delete);
+        downland = (ImageView) findViewById(R.id.music_delete);
+        if(mMusicInfo.islike() == 0){
+            likes.setImageResource(R.drawable.ic_my_like);
+        }else{
+            likes.setImageResource(R.drawable.ic_my_liked);
+        }
     }
     private void myListener() {
         ImageView imageView = (ImageView) findViewById(R.id.album);
@@ -217,6 +223,26 @@ public class ListenPage extends Activity {
             }
         });
 
+        likes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mMusicInfo.islike() == 0) {
+                    likes.setImageResource(R.drawable.ic_my_liked);
+                    mMusicInfo.setIslike(1);
+                    mMusicInfo.setLikenum(mMusicInfo.getLikenum()+1);
+                    MusicList.setLike(position);
+                    new SqlDao(ListenPage.this).update(mMusicInfo);
+
+                }else{
+                    likes.setImageResource(R.drawable.ic_my_like);
+                    mMusicInfo.setIslike(0);
+                    mMusicInfo.setLikenum(mMusicInfo.getLikenum()-1);
+                    MusicList.setDisLike(position);
+                    new SqlDao(ListenPage.this).update(mMusicInfo);
+                }
+
+            }
+        });
     }
 
     @Override

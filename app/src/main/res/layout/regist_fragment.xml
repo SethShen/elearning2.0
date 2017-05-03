@@ -5,6 +5,7 @@
               android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/regist_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -14,55 +15,60 @@
         android:layout_marginTop="40dp"
         />
 
-    <EditText
-        android:id="@+id/phone_num"
+    <RelativeLayout
+        android:id="@+id/phone_block"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="36dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/regist_text"
-        android:hint="手机号"
-        android:textColorHint="@color/lightgray"
-        android:textSize="21dp"
-        android:paddingTop="2dp"
-        android:paddingLeft="20dp"
-        android:textColor="@color/black"/>
+        android:layout_marginTop="120dp"
+        android:background="@drawable/regist_text">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:layout_alignRight="@id/phone_num"
-        android:layout_alignTop="@id/phone_num"
-        android:layout_marginRight="90dp"
-        android:text="|"
-        android:layout_marginTop="4dp"
-        android:textSize="24dp"/>
+        <EditText
+            android:id="@+id/phone_num"
+            android:layout_width="130dp"
+            android:layout_height="36dp"
+            android:hint="手机号"
+            android:textColorHint="@color/lightgray"
+            android:textSize="15dp"
+            android:paddingLeft="20dp"
+            android:textColor="@color/black"
+            android:background="@drawable/regist_edit"/>
+        <TextView
+            android:id="@+id/send_msg"
+            android:layout_width="120dp"
+            android:layout_height="36dp"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:text="发送验证码"
+            android:textSize="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingTop="9dp"
+            android:layout_marginRight="5dp"
+            />
+        <TextView
 
-    <TextView
-        android:id="@+id/set_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="发送验证码"
-        android:layout_alignRight="@id/phone_num"
-        android:layout_alignTop="@id/phone_num"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="15dp"
-
-        />
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/phone_num"
+            android:gravity="left"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="3dp"
+            android:text="|"
+            android:textSize="20dp"/>
+    </RelativeLayout>
     <EditText
         android:id="@+id/check_num"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="36dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="15dp"
-        android:layout_below="@id/phone_num"
+        android:layout_below="@id/phone_block"
         android:background="@drawable/regist_text"
         android:hint="请输入验证码"
-        android:textSize="21dp"
+        android:textSize="15dp"
         android:textColorHint="@color/lightgray"
         android:paddingTop="2dp"
         android:paddingLeft="20dp"
@@ -74,7 +80,7 @@
         android:layout_height="42dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:text="进入"
         android:textColor="@color/white"
         android:layout_below="@id/check_num"

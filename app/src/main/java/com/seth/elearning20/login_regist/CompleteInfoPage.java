@@ -1,4 +1,4 @@
-package com.seth.elearning20.frontfragment;
+package com.seth.elearning20.login_regist;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import com.seth.elearning20.R;
 
 /**
- * Created by Seth on 2017/4/26.
+ * Created by Seth on 2017/5/3.
  */
 
-public class SpokenPage extends Fragment {
+public class CompleteInfoPage extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +20,11 @@ public class SpokenPage extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.third_page_fragment, container, false);
+        View view = inflater.inflate(R.layout.complete_information_fragment, container, false);
 
 
 
         return view;
-
     }
 
 }

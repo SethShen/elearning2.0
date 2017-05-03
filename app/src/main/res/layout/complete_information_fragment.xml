@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="完善信息"
+        android:textColor="@color/darkskycolor"
+        android:textSize="24dp"
+
+        android:gravity="center"
+        android:background="@color/white"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_bar">
+
+
+        <TextView
+            android:id="@+id/usrname"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="用户名"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/gray"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <EditText
+            android:id="@+id/pick_name"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/usrname"
+            android:textSize="15dp"
+            android:maxLength="12"
+            android:lines="1"
+            android:gravity="bottom"
+            android:textColor="@color/black"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_bar">
+
+
+        <TextView
+            android:id="@+id/usrpass"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="密码"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/gray"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <EditText
+            android:id="@+id/password1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="31dp"
+            android:layout_toRightOf="@id/usrpass"
+            android:textSize="15dp"
+            android:maxLength="12"
+            android:gravity="bottom"
+            android:inputType="textPassword"
+            android:textColor="@color/black"
+            android:lines="1"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_bar">
+
+
+        <TextView
+            android:id="@+id/passconf"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="确认密码"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/gray"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <EditText
+            android:id="@+id/password2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@id/passconf"
+            android:textSize="15dp"
+            android:maxLength="12"
+            android:inputType="textPassword"
+            android:gravity="bottom"
+            android:textColor="@color/black"
+            android:lines="1"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_bar">
+
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="邮箱地址"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/gray"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <EditText
+            android:id="@+id/email_address"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@id/email"
+            android:textSize="15dp"
+            android:maxLength="20"
+            android:lines="1"
+            android:gravity="bottom"
+            android:textColor="@color/black"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:background="@color/softwhite"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            >
+            <TextView
+                android:id="@+id/get_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:textColor="@color/darkskycolor"
+                android:text="NEXT"
+                />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@id/get_next"
+                android:src="@drawable/ic_more"/>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

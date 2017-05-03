@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.seth.elearning20.login_regist.ForgetPassPage;
@@ -13,8 +14,6 @@ import com.seth.elearning20.login_regist.LoginPage;
 import com.seth.elearning20.login_regist.RegistPage;
 
 public class Login extends FragmentActivity {
-    private TextView forgetPassword;
-    private TextView regist;
 
     private Fragment login_fm;
     private Fragment regist_fm;
@@ -31,7 +30,6 @@ public class Login extends FragmentActivity {
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN); // 隐藏状态栏
         setContentView(R.layout.activity_login);
-        forgetPassword = (TextView) findViewById(R.id.fetchPassword);
         fm = getSupportFragmentManager();
 
         login_fm = fm.findFragmentById(R.id.activity_login);
@@ -47,21 +45,6 @@ public class Login extends FragmentActivity {
 
     }
 
-    //调用注册fragment
-    public void Regist(){
-        if(regist_fm == null){
-            regist_fm = new RegistPage();
-            fm.beginTransaction().replace(R.id.activity_login, regist_fm).commit();
-        }
-    }
-    //调用密码找回fragment
-    public void FindPassword(){
-        if(forgetPass_fm==null){
-            forgetPass_fm = new ForgetPassPage();
-            fm.beginTransaction().replace(R.id.activity_login, forgetPass_fm);
-        }
-    }
-
     public static Fragment getContentFragment() {
         return contentFragment;
     }
@@ -70,3 +53,17 @@ public class Login extends FragmentActivity {
         contentFragment = contentFragment1;
     }
 }
+//    //调用注册fragment
+//    public void Regist(){
+//        if(regist_fm == null){
+//            regist_fm = new RegistPage();
+//            fm.beginTransaction().replace(R.id.activity_login, regist_fm).commit();
+//        }
+//    }
+//    //调用密码找回fragment
+//    public void FindPassword(){
+//        if(forgetPass_fm==null){
+//            forgetPass_fm = new ForgetPassPage();
+//            fm.beginTransaction().replace(R.id.activity_login, forgetPass_fm);
+//        }
+//    }

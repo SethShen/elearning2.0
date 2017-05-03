@@ -45,7 +45,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/album"
         android:layout_marginRight="80dp"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/ic_my_download"
         android:layout_marginTop="20dp"
         />
 

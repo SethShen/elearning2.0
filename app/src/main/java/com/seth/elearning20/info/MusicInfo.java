@@ -14,6 +14,8 @@ public class MusicInfo {
     private long duration; // 歌曲时长 1
     private long size; // 歌曲大小 8
     private String url; //路径
+    private int islike = 0;     //是否对该音频喜欢（打赏）
+    private int likenum = 0;        //喜欢的人数；
 
     public MusicInfo() {
         super();
@@ -40,6 +42,22 @@ public class MusicInfo {
         this.duration = duration;
         this.size = size;
         this.url = url;
+    }
+
+    public int islike() {
+        return islike;
+    }
+
+    public void setIslike(int islike) {
+        this.islike = islike;
+    }
+
+    public int getLikenum() {
+        return likenum;
+    }
+
+    public void setLikenum(int likenum) {
+        this.likenum = likenum;
     }
 
     public String getUrl() {

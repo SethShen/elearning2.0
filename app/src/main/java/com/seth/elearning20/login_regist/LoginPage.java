@@ -50,7 +50,7 @@ public class LoginPage extends Fragment{
             public void onClick(View v) {
 
                 Fragment fragment = new ForgetPassPage();
-                Fragment fragment1 = Login.getContentFragment();
+                //Fragment fragment1 = Login.getContentFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.activity_login,fragment);
                 //transaction.hide(fragment1).add(R.id.activity_login, fragment);
@@ -64,7 +64,7 @@ public class LoginPage extends Fragment{
             public void onClick(View v) {
 
                 Fragment fragment = new RegistPage();
-                Fragment fragment1 = Login.getContentFragment();
+                //Fragment fragment1 = Login.getContentFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.activity_login,fragment);
                 //transaction.hide(fragment1).add(R.id.activity_login, fragment);
