@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,6 +52,12 @@ public class Login extends FragmentActivity {
 
     public static void setContentFragment(Fragment contentFragment1) {
         contentFragment = contentFragment1;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Log.i("SQLite","销毁登陆activity");
     }
 }
 //    //调用注册fragment

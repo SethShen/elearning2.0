@@ -8,12 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.seth.elearning20.FrontPage;
 import com.seth.elearning20.Login;
 import com.seth.elearning20.R;
+import com.seth.elearning20.sqlite.SqlDao;
+
+import java.util.List;
 
 /**
  * Created by Seth on 2017/4/29.
@@ -23,6 +28,10 @@ public class LoginPage extends Fragment{
     private Button loginBtn;
     private RelativeLayout findPassword;
     private RelativeLayout newRegist;
+    private EditText usrName;
+    private EditText usrPassword;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,12 +45,28 @@ public class LoginPage extends Fragment{
         loginBtn = (Button) view.findViewById(R.id.login_btn);
         findPassword = (RelativeLayout) view.findViewById(R.id.fetchPassword);
         newRegist = (RelativeLayout) view.findViewById(R.id.regist);
+        usrName = (EditText) view.findViewById(R.id.username);
+        usrPassword = (EditText) view.findViewById(R.id.password);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FrontPage.class);
-                startActivity(intent);
+                String name = usrName.getText().toString();
+                String password = usrPassword.getText().toString();
+                List<String> local = new SqlDao(getContext()).usrQuery();
+                if(name.equals("")){
+                    toast("请输入用户名！");
+                }else if(password.equals("")){
+                    toast("请输入密码！");
+                }else if(local==null || ! name.equals(local.get(0))){
+                    toast("用户名或密码错误");
+                }else if(local==null || ! password.equals(local.get(1))){
+                    toast("用户名或密码错误");
+                }else {
+                    Intent intent = new Intent(getActivity(), FrontPage.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
             }
         });
 
@@ -75,6 +100,15 @@ public class LoginPage extends Fragment{
         });
         return view;
     }
-}
+
+    //吐司的一个小方法
+    private void toast(final String str) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }}
 
 

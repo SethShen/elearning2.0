@@ -29,11 +29,16 @@
                   android:theme="@style/AppTheme.NoBar"
                   android:configChanges="keyboardHidden|orientation|screenSize"
                   android:windowSoftInputMode="stateHidden|adjustResize">
+
+        </activity>
+
+        <activity android:name=".LanuchPage"  android:theme="@style/AppTheme.NoBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
 
         <activity android:name=".FrontPage"  android:theme="@style/AppTheme.NoBar">

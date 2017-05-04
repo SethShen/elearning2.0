@@ -75,7 +75,8 @@ public class RegistPage extends Fragment implements View.OnClickListener{
             case R.id.new_regist:
                 //获得用户输入的验证码
                 String code = checkNum.getText().toString().replaceAll("/s","");
-                if(smsSend.CheckInput(code)){
+               // if(smsSend.CheckInput(code)){
+               if(true){        //跳过短信
                     Fragment fragment = new CompleteInfoPage();
                     //Fragment fragment1 = Login.getContentFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();

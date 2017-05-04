@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.seth.elearning20.info.MusicInfo;
+import com.seth.elearning20.info.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +24,30 @@ public class SqlDao {
     public SqlDao(Context context) {
         //创建一个帮助类对象
         mySqliteOpenHelper = new MusicSQLiteOpenHelper(context);
-
-
     }
-//
-//    db.execSQL("create table music (_ID bigint primary key,TITLE varchar(50),ALBUM varchar(50)," +
-//            "DISPLAY_NAME varchar(50), ARTIST varchar(50), DURATION bigint, SIZE bigint, " +
-//            "URL varchar(50), ALBUM_ID bigint)");
+/*******************向数据库中添加用户***************************/
+    public boolean addUsrInfo(UserInfo bean){
+        //执行sql语句需要sqliteDatabase对象
+        //调用getReadableDatabase方法,来初始化数据库的创建
+        SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
+        ContentValues values = new ContentValues();
+
+
+        values.put("NAME", bean.getName());
+        values.put("PHONE", bean.getPhone());
+        values.put("PASSWORD", bean.getPassword());
+        values.put("EMAIL", bean.getEmail());
+        values.put("FROG_URL", bean.getFrogUrl());
+        long result = db.insert("usr", null, values);
+        //底层是在拼装sql语句
+        //关闭数据库对象
+        db.close();
+        if (result != -1) {//-1代表添加失败
+            return true;
+        } else {
+            return false;
+        }
+    }
 /*******************向数据库中添加音频***************************/
     public boolean addMusicInfo(MusicInfo bean) {
         //执行sql语句需要sqliteDatabase对象
@@ -60,7 +78,41 @@ public class SqlDao {
             return false;
         }
     }
-/************************删除对应id资源***************************/
+/*****************删除用户名对应用户记录*************************/
+public int delUsr() {
+    //执行sql语句需要sqliteDatabase对象
+    //调用getReadableDatabase方法,来初始化数据库的创建
+    SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
+    int result = db.delete("usr", null, null);
+    //关闭数据库对象
+    db.close();
+
+    return result;
+}
+/***********************查询用户名对应密码**************************/
+    public List<String> usrQuery(){
+
+        //执行sql语句需要sqliteDatabase对象
+        //调用getReadableDatabase方法,来初始化数据库的创建
+        SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
+
+        Cursor cursor = db.query("usr", new String[]{"NAME","PASSWORD"}, null, null, null, null,null);
+        List<String> password = new ArrayList<>();
+        //解析Cursor中的数据
+        if(cursor != null && cursor.getCount() >0){//判断cursor中是否存在数据
+            cursor.moveToFirst();
+            password.add(cursor.getString(0));
+            password.add(cursor.getString(1));
+            cursor.close();//关闭结果集
+        }else{
+            password = null;
+        }
+        //关闭数据库对象
+        db.close();
+        return password;
+    }
+
+/************************删除id对应音频资源***************************/
     public int del(String music_id) {
         //执行sql语句需要sqliteDatabase对象
         //调用getReadableDatabase方法,来初始化数据库的创建
@@ -88,7 +140,7 @@ public class SqlDao {
         db.close();
         return result;
     }
-/*******************查找额learning数据库全部音频***********************/
+/*******************查找elearning数据库全部音频***********************/
     public List<MusicInfo> localQuery(){
         List<MusicInfo> mMusicInfos = new ArrayList<>();
         SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
@@ -171,6 +223,7 @@ public class SqlDao {
         mCursor.close();
         return  mMusicInfos;
     }
+
 }
 
 //    public boolean query(User bean,Context mContext){
