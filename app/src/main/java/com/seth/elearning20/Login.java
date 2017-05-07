@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.seth.elearning20.login_regist.CompleteInfoPage;
 import com.seth.elearning20.login_regist.ForgetPassPage;
 import com.seth.elearning20.login_regist.LoginPage;
 import com.seth.elearning20.login_regist.RegistPage;
@@ -59,6 +60,8 @@ public class Login extends FragmentActivity {
         super.finish();
         Log.i("SQLite","销毁登陆activity");
     }
+
+
 }
 //    //调用注册fragment
 //    public void Regist(){
