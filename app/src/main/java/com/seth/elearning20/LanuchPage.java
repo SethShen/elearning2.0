@@ -34,13 +34,6 @@ public class LanuchPage extends Activity {
         flag = Flag;
     }
 
-    public interface OnTabActivityResultListener {
-        public void onTabActivityResult(int requestCode, int resultCode, Intent data);
-
-    }
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

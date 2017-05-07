@@ -137,6 +137,7 @@ public class ImageDialogFragment extends DialogFragment implements View.OnClickL
                 if (data!= null) {
                     Log.i("backresult","222");
                     if(tempFile!=null) {
+                        CompleteInfoPage.setImg_file(tempFile);
                         Bitmap photo = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
                         CompleteInfoPage.getFrog().setImageBitmap(photo);
                     }

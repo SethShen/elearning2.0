@@ -1,2 +1,2 @@
-include ':app', ':circleimageview'
+include ':app', ':circleimageview', ':okhttputils'
 project(':circleimageview').projectDir = new File('app/libs/circleimageview')

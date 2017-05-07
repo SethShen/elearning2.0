@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.seth.elearning20.LanuchPage;
 import com.seth.elearning20.login_regist.CompleteInfoPage;
+import com.seth.elearning20.login_regist.LoginPage;
 import com.seth.elearning20.utils.StreamUtils;
 
 import java.io.InputStream;
@@ -41,6 +42,8 @@ public class CheckService extends Service {
                     LanuchPage.setFlag(result);
                 else if(i==2)
                     CompleteInfoPage.setFlag(result);
+                else if(i==3)
+                    LoginPage.setFlag(result);
             }
         }).start();
     }

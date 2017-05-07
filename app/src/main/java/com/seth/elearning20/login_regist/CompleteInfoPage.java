@@ -27,7 +27,9 @@ import com.seth.elearning20.R;
 import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.service.CheckService;
 import com.seth.elearning20.sqlite.SqlDao;
+import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
@@ -51,6 +53,7 @@ public class CompleteInfoPage extends Fragment {
     private RelativeLayout save;
     private boolean result;
     private static boolean flag = false;
+    private static File img_file;
     private UserInfo usr;
 
     /*传值key*/
@@ -80,8 +83,8 @@ public class CompleteInfoPage extends Fragment {
         frog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            ImageDialogFragment dialog = new ImageDialogFragment();
-            dialog.show(getFragmentManager(),"imageDialogFragment");
+                ImageDialogFragment dialog = new ImageDialogFragment();
+                dialog.show(getFragmentManager(),"imageDialogFragment");
 
             }
         });
@@ -112,7 +115,10 @@ public class CompleteInfoPage extends Fragment {
                 }else if(!checkEmail(Email)){
                     toast("请输入正确的邮箱格式!");
                 }else{
-                    usr = new UserInfo(name,password1,usrPhone,Email,null);
+                    String imgUrl = null;
+                    if(img_file!=null)
+                        imgUrl = img_file.getAbsolutePath();
+                    usr = new UserInfo(name,password1,usrPhone,Email,imgUrl);
                     new CheckService().save(setPath(name,password1,usrPhone,Email),2);
                     toast("正在验证用户信息。。。");
                     //等待网络请求
@@ -209,5 +215,9 @@ public class CompleteInfoPage extends Fragment {
 
     public static CircleImageView getFrog() {
         return frog;
+    }
+
+    public static void setImg_file(File img_file) {
+        CompleteInfoPage.img_file = img_file;
     }
 }
