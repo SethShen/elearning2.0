@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+                android:background="@color/white">
 
     <TextView
         android:id="@+id/raido_time"
@@ -17,12 +18,33 @@
 
     <ImageView
         android:id="@+id/start_pause"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/ic_play_music"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/raido_time"
         android:layout_marginTop="40dp"/>
+
+    <ImageView
+        android:id="@+id/save_recoder"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@id/start_pause"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/ic_recoder_complete"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/delete_recoder"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@id/start_pause"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/ic_delete"
+        android:visibility="invisible"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,6 +54,7 @@
         android:background="@color/softwhite"
         />
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/radio_list"
         android:layout_below="@id/start_pause"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"

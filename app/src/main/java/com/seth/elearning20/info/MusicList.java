@@ -22,6 +22,7 @@ public class MusicList extends FragmentActivity {
     private String TAG = "SQLite";
     private static MusicList sMusicList;
     private static List<MusicInfo> mMusicInfos;
+    private static List<MusicInfo> mRadioInfos;
 
     public static MusicList get(Context context){
         if(sMusicList == null){
@@ -46,15 +47,37 @@ public class MusicList extends FragmentActivity {
 
     public MusicList(Context context){
         mMusicInfos = new ArrayList<>();
-
+        mRadioInfos = new ArrayList<>();
+        /*获取本地数据库资源*/
         SqlDao sqlDao = new SqlDao(context);
-        mMusicInfos = sqlDao.localQuery();
+        List<MusicInfo> MusicInfos = sqlDao.localQuery();
+        //获取迭代器
+        Iterator<MusicInfo> iterator1 = MusicInfos.iterator();
+        while (iterator1.hasNext()){
+            MusicInfo musicInfo = iterator1.next();
+            //将音乐和录音分开存取
+            if(musicInfo.getUrl().endsWith(".amr")){
+                mRadioInfos.add(musicInfo);
+            }else{
+                mMusicInfos.add(musicInfo);
+            }
+        }
+        //如果本地资源不存在，从ContentProvider中获取
         if(mMusicInfos.size() == 0){
-            Log.i(TAG,"ContentProvider获取资源");
-            mMusicInfos = sqlDao.ContentProviderQuery(context);
-            Iterator iterator = mMusicInfos.iterator();
-            while(iterator.hasNext()){
-                boolean result = sqlDao.addMusicInfo((MusicInfo) iterator.next());
+            MusicInfos = sqlDao.ContentProviderQuery(context);
+            iterator1 = MusicInfos.iterator();
+            //同样是将音乐和录音分开
+            if(iterator1.hasNext()){
+                MusicInfo musicInfo = iterator1.next();
+                if(musicInfo.getUrl().endsWith(".amr")){
+                    mRadioInfos.add(musicInfo);
+                }else{
+                    mMusicInfos.add(musicInfo);
+                }
+            }
+            iterator1 = MusicInfos.iterator();
+            while(iterator1.hasNext()){
+                boolean result = sqlDao.addMusicInfo((MusicInfo) iterator1.next());
                 Log.i(TAG,"添加"+ result);
             }
 
@@ -65,6 +88,10 @@ public class MusicList extends FragmentActivity {
     //从数据库中获取歌曲列表
     public List<MusicInfo> getMusicInfos() {
         return mMusicInfos;
+    }
+
+    public static List<MusicInfo> getmRadioInfos() {
+        return mRadioInfos;
     }
 
     public static void setLike(int position) {

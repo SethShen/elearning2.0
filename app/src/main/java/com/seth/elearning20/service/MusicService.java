@@ -24,13 +24,14 @@ public class MusicService extends Service {
     public MediaPlayer mMediaPlayer;
     public List<MusicInfo> mMusicInfos;
     public static final String MUSIC_PLAY = "music_play_key";
-    public boolean tag = false;
+    public static boolean tag = false;
     private String Url = null;
     private int musicId;
 
-    public static Intent newIntent(Context packageContext, int music_id){
+    public static Intent newIntent(Context packageContext, int music_id, boolean isType){
         Intent intent = new Intent(packageContext, MusicService.class);
         intent.putExtra(MUSIC_PLAY, music_id);
+        tag = isType;
         return intent;
     }
 
@@ -99,7 +100,10 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("MusicService","onStartCommand");
-        mMusicInfos = MusicList.get().getMusicInfos();
+        if(!tag)
+            mMusicInfos = MusicList.get().getMusicInfos();
+        else
+            mMusicInfos = MusicList.get().getmRadioInfos();
         String url = Url;
         musicId = intent.getIntExtra(MUSIC_PLAY,0);
         Url = mMusicInfos.get(musicId).getUrl();

@@ -101,7 +101,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
         @Override
         public void onClick(View v) {
             musicIndex = itemClicked;
-            Intent intent = ListenPage.newIntent(mContext, itemClicked);
+            Intent intent = ListenPage.newIntent(mContext, itemClicked,mMusicInfo.getUrl());
             mContext.startActivity(intent);
         }
     }

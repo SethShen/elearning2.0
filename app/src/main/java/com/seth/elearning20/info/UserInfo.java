@@ -16,6 +16,7 @@ public class UserInfo {
     private String phone;
     private String email;
     private String frogUrl;
+    private int recoderNum = 0;
 
     public UserInfo(){}
 
@@ -79,5 +80,13 @@ public class UserInfo {
 
     public void setFrogUrl(String frogUrl) {
         this.frogUrl = frogUrl;
+    }
+
+    public int getRecoderNum() {
+        return recoderNum;
+    }
+
+    public void setRecoderNum(int recoderNum) {
+        this.recoderNum = recoderNum;
     }
 }
