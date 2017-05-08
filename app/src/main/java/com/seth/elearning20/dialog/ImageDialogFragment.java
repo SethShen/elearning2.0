@@ -1,4 +1,4 @@
-package com.seth.elearning20.login_regist;
+package com.seth.elearning20.dialog;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seth.elearning20.R;
+import com.seth.elearning20.frontfragment.MinePage;
+import com.seth.elearning20.info.UserInfo;
+import com.seth.elearning20.login_regist.CompleteInfoPage;
+import com.seth.elearning20.service.CheckService;
+import com.seth.elearning20.sqlite.SqlDao;
 
 import java.io.File;
 
@@ -34,8 +39,10 @@ public class ImageDialogFragment extends DialogFragment implements View.OnClickL
     private TextView get_from_album;
     private TextView get_from_camera;
 
-    private String usrPhone;
-
+    private String usrPhone = "18100175792";
+    /*传递值key*/
+    private static final String KEY_STRAT = "DIALOG_IMG";
+    private int VALUE_GET = 1;
     /* 请求识别码 */
     private static final int CODE_GALLERY_REQUEST = 0x11;//本地
     private static final int CODE_CAMERA_REQUEST = 0x22;//拍照
@@ -50,12 +57,27 @@ public class ImageDialogFragment extends DialogFragment implements View.OnClickL
     /* 头像文件 */
     private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
 
+    public static ImageDialogFragment NewInstace(int code,String phone){
+        Bundle args = new Bundle();
+        args.putInt(KEY_STRAT,code);
+        args.putString(KEY_STRAT,phone);
+        ImageDialogFragment dialogFragment = new ImageDialogFragment();
+        dialogFragment.setArguments(args);
+        return dialogFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        VALUE_GET = getArguments().getInt(KEY_STRAT);
+        usrPhone = getArguments().getString(KEY_STRAT);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.dialog_choose_frog, container, false);
-        usrPhone = "18868217689";
         get_from_album = (TextView) view.findViewById(R.id.take_from_album);
         get_from_camera = (TextView) view.findViewById(R.id.take_from_camera);
         /***********创建url*/
@@ -135,11 +157,19 @@ public class ImageDialogFragment extends DialogFragment implements View.OnClickL
 
             case CODE_RESULT_REQUEST:
                 if (data!= null) {
-                    Log.i("backresult","222");
                     if(tempFile!=null) {
-                        CompleteInfoPage.setImg_file(tempFile);
                         Bitmap photo = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
-                        CompleteInfoPage.getFrog().setImageBitmap(photo);
+                        if(VALUE_GET == 1) {
+                            CompleteInfoPage.setImg_file(tempFile);
+                            CompleteInfoPage.getFrog().setImageBitmap(photo);
+                        }else{
+                            MinePage.setImg_file(tempFile);
+                            MinePage.getFrog().setImageBitmap(photo);           //替换我的界面头像
+                            UserInfo userInfo = UserInfo.getUserInfo(getContext());     //获取用户信息
+                            userInfo.setFrogUrl(tempFile.getAbsolutePath());            //修改用户头像url
+                            new SqlDao(getContext()).updateUsrFrog(userInfo);           //更新数据库
+                            new CheckService().uploadFrog(tempFile,userInfo,getContext());
+                        }
                     }
                     onDismiss(getDialog());
                 }

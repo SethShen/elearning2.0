@@ -48,6 +48,22 @@ public class SqlDao {
             return false;
         }
     }
+    /**************修改用户头像url************************/
+    public int updateUsrFrog(UserInfo bean) {
+
+        //执行sql语句需要sqliteDatabase对象
+        //调用getReadableDatabase方法,来初始化数据库的创建
+        SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
+
+        ContentValues values = new ContentValues();//是用map封装的对象，用来存放值
+        //是用map封装的对象，用来存放值
+        values.put("FROG_URL", bean.getFrogUrl());
+//        int result = db.update("music", values, "_ID = ?", new String[]{bean.getId() + ""});
+        int result = db.update("usr", values, "NAME= ?", new String[]{bean.getName()});
+        //关闭数据库对象
+        db.close();
+        return result;
+    }
 /*******************向数据库中添加音频***************************/
     public boolean addMusicInfo(MusicInfo bean) {
         //执行sql语句需要sqliteDatabase对象
@@ -90,26 +106,32 @@ public int delUsr() {
     return result;
 }
 /***********************查询用户名对应密码**************************/
-    public List<String> usrQuery(){
+    public UserInfo usrQuery(){
 
         //执行sql语句需要sqliteDatabase对象
         //调用getReadableDatabase方法,来初始化数据库的创建
         SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
 
-        Cursor cursor = db.query("usr", new String[]{"NAME","PASSWORD"}, null, null, null, null,null);
-        List<String> password = new ArrayList<>();
+        Cursor cursor = db.query("usr", new String[]{"NAME","PASSWORD","PHONE","EMAIL","FROG_URL"}, null, null, null, null,null);
+        UserInfo userInfo = new UserInfo();
+        //List<String> password = new ArrayList<>();
         //解析Cursor中的数据
         if(cursor != null && cursor.getCount() >0){//判断cursor中是否存在数据
             cursor.moveToFirst();
-            password.add(cursor.getString(0));
-            password.add(cursor.getString(1));
+            userInfo.setName(cursor.getString(0));
+            userInfo.setPassword(cursor.getString(1));
+            userInfo.setPhone(cursor.getString(2));
+            userInfo.setEmail(cursor.getString(3));
+            userInfo.setFrogUrl(cursor.getString(4));//这里尚未判空
+            //password.add(cursor.getString(0));
+            //password.add(cursor.getString(1));
             cursor.close();//关闭结果集
         }else{
-            password = null;
+            userInfo = null;
         }
         //关闭数据库对象
         db.close();
-        return password;
+        return userInfo;
     }
 
 /************************删除id对应音频资源***************************/

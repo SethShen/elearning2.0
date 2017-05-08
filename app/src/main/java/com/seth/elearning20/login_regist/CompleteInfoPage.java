@@ -1,19 +1,9 @@
 package com.seth.elearning20.login_regist;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +14,10 @@ import android.widget.Toast;
 
 import com.seth.elearning20.FrontPage;
 import com.seth.elearning20.R;
+import com.seth.elearning20.dialog.ImageDialogFragment;
 import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.service.CheckService;
 import com.seth.elearning20.sqlite.SqlDao;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -72,9 +62,9 @@ public class CompleteInfoPage extends Fragment {
         View view = inflater.inflate(R.layout.complete_information_fragment, container, false);
         usrPhone = "18868217689";
         FindViewById(view);
-
         setUsrFrog();
         SaveInfo();
+
         return view;
     }
 
@@ -83,7 +73,7 @@ public class CompleteInfoPage extends Fragment {
         frog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageDialogFragment dialog = new ImageDialogFragment();
+                ImageDialogFragment dialog = ImageDialogFragment.NewInstace(1,usrPhone);
                 dialog.show(getFragmentManager(),"imageDialogFragment");
 
             }

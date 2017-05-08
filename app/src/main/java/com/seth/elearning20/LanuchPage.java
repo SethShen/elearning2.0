@@ -8,6 +8,7 @@ import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.service.CheckService;
 import com.seth.elearning20.sqlite.SqlDao;
 import com.seth.elearning20.utils.StreamUtils;
@@ -41,10 +42,10 @@ public class LanuchPage extends Activity {
 
         String getName ;
         String getPassword ;
-        List<String>  localact = new SqlDao(getApplication()).usrQuery();
-        if(localact!=null) {
-            getName = localact.get(0);
-            getPassword = localact.get(1);
+        UserInfo userInfo = UserInfo.getUserInfo(this);
+        if(userInfo!=null) {
+            getName = userInfo.getName();
+            getPassword = userInfo.getPassword();
         /*在service中获取网络验证*/
             new CheckService().save(getpath(getName, getPassword), 1);
         }

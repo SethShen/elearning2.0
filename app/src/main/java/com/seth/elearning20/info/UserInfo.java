@@ -1,15 +1,24 @@
 package com.seth.elearning20.info;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.seth.elearning20.sqlite.SqlDao;
+
 /**
  * Created by Seth on 2017/5/4.
  */
 
 public class UserInfo {
+    private static UserInfo sUserInfo;
     private String name;
     private String password;
     private String phone;
     private String email;
     private String frogUrl;
+
+    public UserInfo(){}
+
 
     public UserInfo(String name, String password, String phone, String email, String frogUrl) {
         this.name = name;
@@ -17,6 +26,19 @@ public class UserInfo {
         this.phone = phone;
         this.email = email;
         this.frogUrl = frogUrl;
+    }
+    public static UserInfo setsUserInfo(String name, String password){
+        sUserInfo = new UserInfo();
+        sUserInfo.setName(name);
+        sUserInfo.setPassword(password);
+        return sUserInfo;
+    }
+
+    public static UserInfo getUserInfo(Context context){
+        if(sUserInfo==null){
+            sUserInfo = new SqlDao(context).usrQuery();
+        }
+        return sUserInfo;
     }
 
     public String getName() {

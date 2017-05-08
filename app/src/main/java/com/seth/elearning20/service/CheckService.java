@@ -1,18 +1,27 @@
 package com.seth.elearning20.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.seth.elearning20.LanuchPage;
+import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.login_regist.CompleteInfoPage;
 import com.seth.elearning20.login_regist.LoginPage;
 import com.seth.elearning20.utils.StreamUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
+
+import okhttp3.Call;
 
 
 /**
@@ -27,6 +36,33 @@ public class CheckService extends Service {
         return null;
     }
 
+
+    public static void uploadFrog(final File img, final UserInfo userInfo, final Context context){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Log.i("backresult","start");
+                OkHttpUtils.post()
+                        .addParams("name",userInfo.getName())
+                        .addFile("usrFrog","usr_frog"+userInfo.getPhone()+".jpg",img)
+                        .url("http://115.159.71.92:8080/eLearningManager/user/uploadPic")
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+                                Log.i("backresult","error");
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+                                Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
+                                Log.i("backresult",response);
+                            }
+                        });
+            }
+        }).start();
+    }
     /**
      * 根据传入path调用SendGetCheck()请求网络
      * @param path

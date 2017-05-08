@@ -18,6 +18,7 @@ import com.seth.elearning20.FrontPage;
 import com.seth.elearning20.LanuchPage;
 import com.seth.elearning20.Login;
 import com.seth.elearning20.R;
+import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.service.CheckService;
 import com.seth.elearning20.sqlite.SqlDao;
 
@@ -57,8 +58,8 @@ public class LoginPage extends Fragment{
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = usrName.getText().toString();
-                String password = usrPassword.getText().toString();
+                final String name = usrName.getText().toString();
+                final String password = usrPassword.getText().toString();
                 /******************本地数据库校验**********************
                  List<String> local = new SqlDao(getContext()).usrQuery();
                  if(name.equals("")){
@@ -82,6 +83,8 @@ public class LoginPage extends Fragment{
                     @Override
                     public void run() {
                         if(flag==true){
+                            UserInfo userInfo = UserInfo.setsUserInfo(name,password);
+                            new SqlDao(getContext()).addUsrInfo(userInfo);
                             Intent intent = new Intent(getActivity(), FrontPage.class);
                             startActivity(intent);
                             getActivity().finish();
