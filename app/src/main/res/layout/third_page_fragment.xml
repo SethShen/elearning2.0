@@ -53,7 +53,7 @@
         android:layout_marginTop="15dp"
         android:background="@color/softwhite"
         />
-    <android.support.v7.widget.RecyclerView
+    <com.seth.elearning20.view.MyRecyclerView
         android:id="@+id/radio_list"
         android:layout_below="@id/start_pause"
         android:layout_marginTop="40dp"

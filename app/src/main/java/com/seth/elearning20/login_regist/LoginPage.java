@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,8 @@ public class LoginPage extends Fragment{
                  getActivity().finish();
                  }
                  *************************网络验证**************************/
+
+                UserInfo userInfo = UserInfo.setsUserInfo(name,password);
                 /*在service中获取网络验证*/
                 new CheckService().save(getpath(name, password), 3);
                 /*延时等待网络判断*/
@@ -83,8 +86,9 @@ public class LoginPage extends Fragment{
                     @Override
                     public void run() {
                         if(flag==true){
-                            UserInfo userInfo = UserInfo.setsUserInfo(name,password);
-                            new SqlDao(getContext()).addUsrInfo(userInfo);
+                            UserInfo info = UserInfo.getUserInfo();
+                            boolean result =new SqlDao(getContext()).addUsrInfo(info);
+                            Log.i("SQLiteresult",result+"");
                             Intent intent = new Intent(getActivity(), FrontPage.class);
                             startActivity(intent);
                             getActivity().finish();
@@ -94,7 +98,6 @@ public class LoginPage extends Fragment{
                     }
                 }, 1000);
                 /*********************************************************************/
-
             }
         });
         findPassword.setOnClickListener(new View.OnClickListener() {

@@ -12,28 +12,13 @@ import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.login_regist.CompleteInfoPage;
 import com.seth.elearning20.login_regist.LoginPage;
 import com.seth.elearning20.utils.StreamUtils;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.Callback;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-import static java.lang.String.valueOf;
 
 
 /**
@@ -49,38 +34,9 @@ public class CheckService extends Service {
     }
 
 
-    public static void uploadFrog(final File img, final UserInfo userInfo, final Context context){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+    public static void uploadFrog(final File img, final UserInfo userInfo, final Context context) {
 
-                Log.i("backresult","start");
-                Log.i("backresult",img.getAbsolutePath()+"  "+userInfo.getName());
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name",userInfo.getName());
-                Map<String, String> headers = new HashMap<>();
-                headers.put("APP-Key", "APP-Secret222");
-                headers.put("APP-Secret", "APP-Secret111");
-                OkHttpUtils.post()
-                        .addFile("usrFrog","usr_frog"+userInfo.getPhone()+".jpg",img)
-                        .url("http://115.159.71.92:8080/eLearningManager/user/uploadPic")
-                        .params(params)
-                        .headers(headers)
-                        .build()
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onError(Call call, Exception e, int id) {
-                                Log.i("backresult","error"+id);
-                            }
 
-                            @Override
-                            public void onResponse(String response, int id) {
-                                Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
-                                Log.i("backresult",response);
-                            }
-                        });
-            }
-        }).start();
     }
     /**
      * 根据传入path调用SendGetCheck()请求网络
@@ -129,10 +85,17 @@ public class CheckService extends Service {
                 InputStream inputStream = conn.getInputStream();
                 String result = StreamUtils.streamToString(inputStream);
                 Log.i("backnum",result);
-                if(result.equals("1"))
+                String strs[] = result.split(",");
+                if(strs[0].equals("-1"))
+                    flag = false;
+                else {
                     flag = true;
-                else
-                    flag =  false;
+                    if(strs[0].equals("1")){
+                        UserInfo userInfo = UserInfo.getUserInfo();
+                        userInfo.setPhone(strs[1]);
+                        userInfo.setEmail(strs[2]);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

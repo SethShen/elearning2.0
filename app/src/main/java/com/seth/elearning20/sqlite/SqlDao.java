@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.seth.elearning20.info.MusicInfo;
 import com.seth.elearning20.info.UserInfo;
@@ -20,8 +21,10 @@ import java.util.List;
 
 public class SqlDao {
     private MusicSQLiteOpenHelper mySqliteOpenHelper;
+    private Context mContext;
 
     public SqlDao(Context context) {
+        mContext = context;
         //创建一个帮助类对象
         mySqliteOpenHelper = new MusicSQLiteOpenHelper(context);
     }
@@ -38,6 +41,7 @@ public class SqlDao {
         values.put("PASSWORD", bean.getPassword());
         values.put("EMAIL", bean.getEmail());
         values.put("FROG_URL", bean.getFrogUrl());
+        values.put("RECODER_NUM", bean.getRecoderNum()+"");
         long result = db.insert("usr", null, values);
         //底层是在拼装sql语句
         //关闭数据库对象
@@ -49,7 +53,7 @@ public class SqlDao {
         }
     }
     /**************修改用户头像url************************/
-    public int updateUsrFrog(UserInfo bean) {
+    public int updateUsr(UserInfo bean) {
 
         //执行sql语句需要sqliteDatabase对象
         //调用getReadableDatabase方法,来初始化数据库的创建
@@ -58,6 +62,7 @@ public class SqlDao {
         ContentValues values = new ContentValues();//是用map封装的对象，用来存放值
         //是用map封装的对象，用来存放值
         values.put("FROG_URL", bean.getFrogUrl());
+        values.put("RECODER_NUM",bean.getRecoderNum());
 //        int result = db.update("music", values, "_ID = ?", new String[]{bean.getId() + ""});
         int result = db.update("usr", values, "NAME= ?", new String[]{bean.getName()});
         //关闭数据库对象
@@ -112,7 +117,7 @@ public int delUsr() {
         //调用getReadableDatabase方法,来初始化数据库的创建
         SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();
 
-        Cursor cursor = db.query("usr", new String[]{"NAME","PASSWORD","PHONE","EMAIL","FROG_URL"}, null, null, null, null,null);
+        Cursor cursor = db.query("usr", new String[]{"NAME","PASSWORD","PHONE","EMAIL","FROG_URL","RECODER_NUM"}, null, null, null, null,null);
         UserInfo userInfo = new UserInfo();
         //List<String> password = new ArrayList<>();
         //解析Cursor中的数据
@@ -123,6 +128,7 @@ public int delUsr() {
             userInfo.setPhone(cursor.getString(2));
             userInfo.setEmail(cursor.getString(3));
             userInfo.setFrogUrl(cursor.getString(4));//这里尚未判空
+            userInfo.setRecoderNum(cursor.getInt(5));
             //password.add(cursor.getString(0));
             //password.add(cursor.getString(1));
             cursor.close();//关闭结果集
@@ -229,7 +235,6 @@ public int delUsr() {
             long size = mCursor.getLong(6);
             String url = mCursor.getString(7);
             long albumId = mCursor.getLong(8);
-
             musicInfo.setTitle(title);
             musicInfo.setId(id);
             musicInfo.setAlbum(album);
@@ -245,7 +250,18 @@ public int delUsr() {
         mCursor.close();
         return  mMusicInfos;
     }
+/**********************************在数据库中删除音频******************************/
+    public void DeleteMusicDatabase(long ID){    //这里的ID是数据库中获取的文件_Id
+        ContentResolver contentResolver = mContext.getContentResolver();
 
+        int res = contentResolver.delete(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, MediaStore.Audio.Media._ID + "=" +ID, null);
+        //MediaStore.Audio.Media.EXTERNAL_CONTENT_URI数据库表所在路径
+        //这里用到了后面的参数，第二个表示delete判断的条件，MediaStore.Audio.Media._ID表示
+        //我要判断的列后面加上我想要删除对应的文件Id
+
+        Toast.makeText(mContext,ID+"  "+res,Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext,ID+""+res,Toast.LENGTH_SHORT).show();
+    }
 }
 
 //    public boolean query(User bean,Context mContext){

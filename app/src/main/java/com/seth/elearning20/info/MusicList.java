@@ -53,33 +53,38 @@ public class MusicList extends FragmentActivity {
         List<MusicInfo> MusicInfos = sqlDao.localQuery();
         //获取迭代器
         Iterator<MusicInfo> iterator1 = MusicInfos.iterator();
-        while (iterator1.hasNext()){
-            MusicInfo musicInfo = iterator1.next();
-            //将音乐和录音分开存取
-            if(musicInfo.getUrl().endsWith(".amr")){
-                mRadioInfos.add(musicInfo);
-            }else{
-                mMusicInfos.add(musicInfo);
-            }
-        }
+//        while (iterator1.hasNext()){
+//            MusicInfo musicInfo = iterator1.next();
+//            //将音乐和录音分开存取
+//            if(musicInfo.getUrl().endsWith(".amr")){
+//                mRadioInfos.add(musicInfo);
+//            }else{
+//                mMusicInfos.add(musicInfo);
+//            }
+//        }
         //如果本地资源不存在，从ContentProvider中获取
         if(mMusicInfos.size() == 0){
             MusicInfos = sqlDao.ContentProviderQuery(context);
             iterator1 = MusicInfos.iterator();
             //同样是将音乐和录音分开
-            if(iterator1.hasNext()){
+            while(iterator1.hasNext()){
                 MusicInfo musicInfo = iterator1.next();
+                //sqlDao.addMusicInfo(musicInfo);
                 if(musicInfo.getUrl().endsWith(".amr")){
+                    Log.i(TAG,"添加"+musicInfo.getUrl());
+                    Log.i(TAG,"添加"+ musicInfo.getTitle());
+                    Log.i(TAG,"添加"+ musicInfo.getArtist());
+                    Log.i(TAG,"添加"+ musicInfo.getDisplayName());
                     mRadioInfos.add(musicInfo);
                 }else{
                     mMusicInfos.add(musicInfo);
                 }
             }
-            iterator1 = MusicInfos.iterator();
-            while(iterator1.hasNext()){
-                boolean result = sqlDao.addMusicInfo((MusicInfo) iterator1.next());
-                Log.i(TAG,"添加"+ result);
-            }
+            //iterator1 = MusicInfos.iterator();
+            //while(iterator1.hasNext()){
+                //boolean result = sqlDao.addMusicInfo((MusicInfo) iterator1.next());
+                //Log.i(TAG,"添加"+ iterator1.next().getUrl());
+           // }
 
         }
 

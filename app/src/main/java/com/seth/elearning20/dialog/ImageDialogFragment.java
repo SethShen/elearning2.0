@@ -9,9 +9,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,7 +164,7 @@ public class ImageDialogFragment extends DialogFragment implements View.OnClickL
                             MinePage.getFrog().setImageBitmap(photo);           //替换我的界面头像
                             UserInfo userInfo = UserInfo.getUserInfo(getContext());     //获取用户信息
                             userInfo.setFrogUrl(tempFile.getAbsolutePath());            //修改用户头像url
-                            new SqlDao(getContext()).updateUsrFrog(userInfo);           //更新数据库
+                            new SqlDao(getContext()).updateUsr(userInfo);           //更新数据库
                             new CheckService().uploadFrog(tempFile,userInfo,getContext());
                         }
                     }

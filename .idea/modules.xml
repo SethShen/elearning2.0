@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/libs/circleimageview/circleimageview.iml" filepath="$PROJECT_DIR$/app/libs/circleimageview/circleimageview.iml" />
       <module fileurl="file://$PROJECT_DIR$/elearning2.0.iml" filepath="$PROJECT_DIR$/elearning2.0.iml" />
-      <module fileurl="file://$PROJECT_DIR$/okhttputils/okhttputils.iml" filepath="$PROJECT_DIR$/okhttputils/okhttputils.iml" />
     </modules>
   </component>
 </project>

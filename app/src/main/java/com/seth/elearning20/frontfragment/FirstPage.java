@@ -11,11 +11,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.seth.elearning20.R;
 import com.seth.elearning20.adapter.NewsAdapter;
 import com.seth.elearning20.info.NewsInfo;
 import com.seth.elearning20.info.NewsList;
+import com.seth.elearning20.info.UserInfo;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;

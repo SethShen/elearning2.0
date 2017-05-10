@@ -10,7 +10,7 @@ import android.util.Log;
  */
 
 public class MusicSQLiteOpenHelper extends SQLiteOpenHelper {
-    private static int version = 2;         //数据库版本
+    private static int version = 4;         //数据库版本
 
     public MusicSQLiteOpenHelper(Context context) {
         super(context, "musicinfos.db", null,version);
@@ -22,14 +22,13 @@ public class MusicSQLiteOpenHelper extends SQLiteOpenHelper {
                 "DISPLAY_NAME varchar(50), ARTIST varchar(50), DURATION bigint, SIZE bigint, " +
                 "URL varchar(50), ALBUM_ID bigint, ISLIKE integer, LIKENUM integer)");
         db.execSQL("create table usr(NAME varchar(50) primary key, PHONE varchar(50)," +
-                " PASSWORD varchar(50),EMAIL varchar(50), FROG_URL varchar(50))");
+                " PASSWORD varchar(50),EMAIL varchar(50), FROG_URL varchar(50),RECODER_NUM integer)");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-//        db.execSQL("drop table usr");
         Log.i("SQLite","更新数据库");
     }
 }

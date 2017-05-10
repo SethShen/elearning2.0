@@ -41,6 +41,9 @@ public class UserInfo {
         }
         return sUserInfo;
     }
+    public static UserInfo getUserInfo(){
+        return sUserInfo;
+    }
 
     public String getName() {
         return name;

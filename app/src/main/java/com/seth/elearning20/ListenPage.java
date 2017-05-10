@@ -108,6 +108,7 @@ public class ListenPage extends Activity {
         FindViewById();
         bindServiceConnection();
         myListener();
+
         mAllTimeTextView.setText(MusicAdapter.formatTime(mMusicInfo.getDuration()).toString());
         mMusicTitle.setText(mMusicInfo.getTitle());                         //设置文章标题
         //mAllTimeTextView.setText(MusicAdapter.formatTime(mMusicService.mMediaPlayer.getDuration()));    //设置进度条时间

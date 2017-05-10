@@ -59,7 +59,8 @@ public class MinePage extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.quit:
-                new SqlDao(getContext()).delUsr();
+                int result = new SqlDao(getContext()).delUsr();
+                Log.i("SQLiteres",result+"");
                 startActivity(new Intent(getActivity(), Login.class));
                 getActivity().finish();
                 break;
