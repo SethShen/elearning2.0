@@ -165,7 +165,7 @@ public class ImageDialogFragment extends DialogFragment implements View.OnClickL
                             UserInfo userInfo = UserInfo.getUserInfo(getContext());     //获取用户信息
                             userInfo.setFrogUrl(tempFile.getAbsolutePath());            //修改用户头像url
                             new SqlDao(getContext()).updateUsr(userInfo);           //更新数据库
-                            new CheckService().uploadFrog(tempFile,userInfo,getContext());
+                            new CheckService(getActivity()).uploadFrog(tempFile,userInfo,getContext());
                         }
                     }
                     onDismiss(getDialog());

@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seth.elearning20.FrontPage;
-import com.seth.elearning20.LanuchPage;
 import com.seth.elearning20.Login;
 import com.seth.elearning20.R;
 import com.seth.elearning20.info.UserInfo;
@@ -25,7 +23,6 @@ import com.seth.elearning20.sqlite.SqlDao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
 
 /**
  * Created by Seth on 2017/4/29.
@@ -80,7 +77,7 @@ public class LoginPage extends Fragment{
 
                 UserInfo userInfo = UserInfo.setsUserInfo(name,password);
                 /*在service中获取网络验证*/
-                new CheckService().save(getpath(name, password), 3);
+                new CheckService().login(getpath(name, password), 3);
                 /*延时等待网络判断*/
                 new Handler().postDelayed(new Runnable() {
                     @Override

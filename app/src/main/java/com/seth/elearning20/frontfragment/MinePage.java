@@ -16,6 +16,7 @@ import com.seth.elearning20.Login;
 import com.seth.elearning20.R;
 import com.seth.elearning20.dialog.ImageDialogFragment;
 import com.seth.elearning20.info.UserInfo;
+import com.seth.elearning20.service.CheckService;
 import com.seth.elearning20.sqlite.SqlDao;
 
 import java.io.File;
@@ -60,6 +61,8 @@ public class MinePage extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.quit:
                 int result = new SqlDao(getContext()).delUsr();
+                UserInfo.setUserInfo(null);
+                CheckService.setUserInfo(null);
                 Log.i("SQLiteres",result+"");
                 startActivity(new Intent(getActivity(), Login.class));
                 getActivity().finish();

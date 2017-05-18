@@ -10,6 +10,8 @@ import java.util.List;
 
 public class NewsList {
     private static NewsList sNewsList;
+
+
     private List<NewsInfo> mNewsList;
 
     public static NewsList get(){

@@ -45,6 +45,10 @@ public class UserInfo {
         return sUserInfo;
     }
 
+    public static void setUserInfo(UserInfo userInfo) {
+        sUserInfo = userInfo;
+    }
+
     public String getName() {
         return name;
     }

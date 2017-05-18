@@ -50,17 +50,29 @@ public class CompleteInfoPage extends Fragment {
     private static boolean resultflag = false;
     /* 头像文件 */
     private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
+    /*new对象时的传值key*/
+    private static final String NEW_KEY = "new completeInfoPage";
+
+    public static CompleteInfoPage newInstance(String phone){
+        Bundle args = new Bundle();
+        args.putString(NEW_KEY,phone);
+        CompleteInfoPage completeInfoPage = new CompleteInfoPage();
+        completeInfoPage.setArguments(args);
+
+        return completeInfoPage;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        usrPhone = getArguments().getString(NEW_KEY);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         sCompleteInfoPage = this;
         View view = inflater.inflate(R.layout.complete_information_fragment, container, false);
-        usrPhone = "18868217689";
+        //usrPhone = "18868217689";
         FindViewById(view);
         setUsrFrog();
         SaveInfo();
@@ -109,7 +121,7 @@ public class CompleteInfoPage extends Fragment {
                     if(img_file!=null)
                         imgUrl = img_file.getAbsolutePath();
                     usr = new UserInfo(name,password1,usrPhone,Email,imgUrl);
-                    new CheckService().save(setPath(name,password1,usrPhone,Email),2);
+                    new CheckService().login(setPath(name,password1,usrPhone,Email),2);
                     toast("正在验证用户信息。。。");
                     //等待网络请求
                     new Handler().postDelayed(new checkInfo(),2500);

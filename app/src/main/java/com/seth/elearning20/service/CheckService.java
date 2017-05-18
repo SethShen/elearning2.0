@@ -3,17 +3,31 @@ package com.seth.elearning20.service;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.os.IBinder;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.seth.elearning20.LanuchPage;
+import com.seth.elearning20.dialog.ImageDialogFragment;
+import com.seth.elearning20.frontfragment.SpokenPage;
 import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.login_regist.CompleteInfoPage;
 import com.seth.elearning20.login_regist.LoginPage;
 import com.seth.elearning20.utils.StreamUtils;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -26,23 +40,73 @@ import java.net.URL;
  */
 
 public class CheckService extends Service {
-
+    private OkHttpClient client = new OkHttpClient();
+    private FragmentActivity mActivity;
+    private static UserInfo userInfo;
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
+    public CheckService(){
+        if(userInfo==null)
+           userInfo = UserInfo.getUserInfo();
+    }
 
-    public static void uploadFrog(final File img, final UserInfo userInfo, final Context context) {
+    public CheckService(FragmentActivity activity){
+        mActivity = activity;
+    }
+
+    public void uploadFrog(final File img, final UserInfo userInfo, final Context context) {
+
+
+        //RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"),img);
+        MultipartBuilder multipartBuilder = new MultipartBuilder();
+        RequestBody requestBody = multipartBuilder.type(MultipartBuilder.FORM)
+                .addFormDataPart("name",UserInfo.getUserInfo().getName())
+                .addFormDataPart("file","ss.jpg", RequestBody.create(MediaType.parse("application/octet-stream"),img)).build();
+
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.url("http://115.159.71.92:8080/eLearningManager/user/uploadPic").post(requestBody).build();
+        executeRequest(request);
 
 
     }
+
+    private void executeRequest(Request request) {
+        Call call = client.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                Log.i("okhttpRespond","failure");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                Log.i("okhttpRespond","success");
+                final String res = response.body().string();
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mActivity,res,Toast.LENGTH_SHORT).show();
+                    }
+                });
+//                getApplicationContext().
+//                Toast.makeText(getApplication(),res,Toast.LENGTH_SHORT);
+                Log.i("okhttpRespond",res);
+            }
+        });
+    }
+
     /**
      * 根据传入path调用SendGetCheck()请求网络
      * @param path
      */
-    public static void save(final String path, final int i) {
+    public void login(final String path, final int i) {
+        final UserInfo user = userInfo;
         //用子线程跑网络请求
         new Thread(new Runnable() {
             @Override
@@ -55,8 +119,49 @@ public class CheckService extends Service {
                     CompleteInfoPage.setFlag(result);
                 else if(i==3)
                     LoginPage.setFlag(result);
+                if(result&&userInfo.getFrogUrl()==null){
+                    DownloadFrog();
+                }
             }
         }).start();
+    }
+
+    private void DownloadFrog() {
+        Request.Builder builder = new Request.Builder();
+        final Request request = builder
+                .get()
+                .url("http://i1.hdslb.com/bfs/face/76c3a7fdb2ae9e8ffffcd4b5d1a3d0afe07f241e.jpg")
+                .build();
+
+        Call call = client.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                Log.i("okhttpRespond","failure");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                Log.i("okhttpRespond","onResponse:");
+                InputStream is = response.body().byteStream();
+
+                int len =0;
+                File dir = new File(Environment.getExternalStorageDirectory()+"/Frog",userInfo.getName()+".jpg");
+                byte[] buf = new byte[128];
+                FileOutputStream fos = new FileOutputStream(dir);
+
+                while ((len=is.read(buf)) != -1){
+                    fos.write(buf,0,len);
+                }
+                fos.flush();
+                fos.close();
+                is.close();
+                Log.i("okhttpRespond","download Success!");
+                userInfo.setFrogUrl(dir.getAbsolutePath());
+            }
+        });
     }
 
     /****
@@ -72,15 +177,11 @@ public class CheckService extends Service {
             //获取HttpURLConnection对象
             HttpURLConnection conn = (HttpURLConnection)new URL(url.toString()).openConnection();
 
-            Log.i("backnum","1");
             //设置超时时间
             conn.setConnectTimeout(2500);
-            Log.i("backnum","2");
             //请求方式
             conn.setRequestMethod("GET");
-            Log.i("backnum","3");
             int code = conn.getResponseCode();
-            Log.i("backnum",code+"4");
             if(code == 200){
                 InputStream inputStream = conn.getInputStream();
                 String result = StreamUtils.streamToString(inputStream);
@@ -133,5 +234,7 @@ public class CheckService extends Service {
         }
     }
 
-
+    public static void setUserInfo(UserInfo userInfo) {
+        CheckService.userInfo = userInfo;
+    }
 }

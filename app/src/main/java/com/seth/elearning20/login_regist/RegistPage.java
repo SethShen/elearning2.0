@@ -25,6 +25,7 @@ public class RegistPage extends Fragment implements View.OnClickListener{
     private EditText checkNum;
     private TextView sendMsg;
     private SmsSend smsSend;
+    private String phone;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,17 +68,17 @@ public class RegistPage extends Fragment implements View.OnClickListener{
     }
     @Override
     public void onClick(View v) {
+        String phone = usrPhone.getText().toString().trim().replaceAll("/s","");
         switch (v.getId()) {
             case R.id.send_msg:
-                String phone = usrPhone.getText().toString().trim().replaceAll("/s","");
-                smsSend.sendMsg(phone);
+                 smsSend.sendMsg(phone);
                 break;
             case R.id.new_regist:
                 //获得用户输入的验证码
                 String code = checkNum.getText().toString().replaceAll("/s","");
                // if(smsSend.CheckInput(code)){
                if(true){        //跳过短信
-                    Fragment fragment = new CompleteInfoPage();
+                    Fragment fragment = CompleteInfoPage.newInstance(phone);
                     //Fragment fragment1 = Login.getContentFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.activity_login,fragment);

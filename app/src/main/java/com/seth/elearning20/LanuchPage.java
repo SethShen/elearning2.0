@@ -4,22 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.util.Log;
-import android.widget.ImageView;
 
 import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.service.CheckService;
-import com.seth.elearning20.sqlite.SqlDao;
-import com.seth.elearning20.utils.StreamUtils;
 
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Seth on 2017/5/4.
@@ -47,7 +37,7 @@ public class LanuchPage extends Activity {
             getName = userInfo.getName();
             getPassword = userInfo.getPassword();
         /*在service中获取网络验证*/
-            new CheckService().save(getpath(getName, getPassword), 1);
+            new CheckService().login(getpath(getName, getPassword), 1);
         }
         /*延时等待网络判断*/
         new Handler().postDelayed(new splashhandler(), 3000);
