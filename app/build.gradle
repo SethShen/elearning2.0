@@ -41,7 +41,8 @@ dependencies {
     compile name: 'SMSSDKGUI-2.1.4', ext: 'aar'
     compile files('libs/MobCommons-2017.0321.1624.jar')
     compile files('libs/MobTools-2017.0321.1624.jar')
+    compile project(':AndroidVideoCache')
+
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.okio:okio:1.5.0'
-
 }

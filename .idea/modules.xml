@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidVideoCache/AndroidVideoCache.iml" filepath="$PROJECT_DIR$/AndroidVideoCache/AndroidVideoCache.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/libs/circleimageview/circleimageview.iml" filepath="$PROJECT_DIR$/app/libs/circleimageview/circleimageview.iml" />
       <module fileurl="file://$PROJECT_DIR$/elearning2.0.iml" filepath="$PROJECT_DIR$/elearning2.0.iml" />

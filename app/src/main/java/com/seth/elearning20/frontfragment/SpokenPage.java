@@ -69,7 +69,7 @@ public class SpokenPage extends Fragment implements View.OnClickListener{
             @Override
             public void onItemClick(View view, int position) {
 
-                Intent intent = ListenPage.newIntent(getContext(), position,mInfos.get(position).getUrl());
+                Intent intent = ListenPage.newIntent(getContext(), position, 1);
                 getContext().startActivity(intent);
             }
 

@@ -23,10 +23,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
     private Context mContext;
     private List<MusicInfo> mMusicInfos;
     private int musicIndex;
+    private int musicType;
 
-    public MusicAdapter(List<MusicInfo> musicInfos, Context context){
+    public MusicAdapter(List<MusicInfo> musicInfos, Context context,int type){
         mContext = context;
         mMusicInfos = musicInfos;
+        musicType = type;                           //判断是否为本地请求
     }
 
 
@@ -101,7 +103,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
         @Override
         public void onClick(View v) {
             musicIndex = itemClicked;
-            Intent intent = ListenPage.newIntent(mContext, itemClicked,mMusicInfo.getUrl());
+            Intent intent = ListenPage.newIntent(mContext, itemClicked,musicType);
             mContext.startActivity(intent);
         }
     }

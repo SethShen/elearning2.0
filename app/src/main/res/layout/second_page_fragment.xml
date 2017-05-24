@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+                android:background="@color/white">
 
 
-    <android.support.v7.widget.RecyclerView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/music_tab"
+        android:background="@drawable/music_tab">
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:id="@+id/local_music"
+            android:text="本地资源"
+            android:background="@color/lightblue"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="50dp"
+            />
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:id="@+id/online_music"
+            android:text="在线资源"
+            android:background="@color/lightblue"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            />
+
+
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/music_list"/>
-
+        android:layout_below="@id/music_tab"
+        android:id="@+id/music_content">
+    </RelativeLayout>
 </RelativeLayout>

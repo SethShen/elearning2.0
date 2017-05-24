@@ -10,15 +10,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.seth.elearning20.LanuchPage;
-import com.seth.elearning20.dialog.ImageDialogFragment;
-import com.seth.elearning20.frontfragment.SpokenPage;
 import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.login_regist.CompleteInfoPage;
 import com.seth.elearning20.login_regist.LoginPage;
 import com.seth.elearning20.utils.StreamUtils;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
+
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -30,9 +28,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import java.net.URLEncoder;
 
 
 /**
@@ -54,9 +53,38 @@ public class CheckService extends Service {
            userInfo = UserInfo.getUserInfo();
     }
 
+
+
     public CheckService(FragmentActivity activity){
         mActivity = activity;
     }
+
+
+    /**
+     * 根据传入path调用SendGetCheck()请求网络
+     * @param path
+     */
+    public void login(final String path, final int i) {
+        final UserInfo user = userInfo;
+        //用子线程跑网络请求
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean result;
+                result = SendGetCheck(path);
+                if(i==1)
+                    LanuchPage.setFlag(result);
+                else if(i==2)
+                    CompleteInfoPage.setFlag(result);
+                else if(i==3)
+                    LoginPage.setFlag(result);
+                if(result&&userInfo.getFrogUrl()==null){
+                    DownloadFrog();
+                }
+            }
+        }).start();
+    }
+
 
     public void uploadFrog(final File img, final UserInfo userInfo, final Context context) {
 
@@ -101,36 +129,20 @@ public class CheckService extends Service {
         });
     }
 
-    /**
-     * 根据传入path调用SendGetCheck()请求网络
-     * @param path
-     */
-    public void login(final String path, final int i) {
-        final UserInfo user = userInfo;
-        //用子线程跑网络请求
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                boolean result;
-                result = SendGetCheck(path);
-                if(i==1)
-                    LanuchPage.setFlag(result);
-                else if(i==2)
-                    CompleteInfoPage.setFlag(result);
-                else if(i==3)
-                    LoginPage.setFlag(result);
-                if(result&&userInfo.getFrogUrl()==null){
-                    DownloadFrog();
-                }
-            }
-        }).start();
-    }
-
     private void DownloadFrog() {
+
+        String path = "http://115.159.71.92:8080/eLearningManager/user/getPic?name=";
+        String usr= null;
+        try {
+            usr = URLEncoder.encode(userInfo.getName(),"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        path+= usr;
         Request.Builder builder = new Request.Builder();
         final Request request = builder
                 .get()
-                .url("http://i1.hdslb.com/bfs/face/76c3a7fdb2ae9e8ffffcd4b5d1a3d0afe07f241e.jpg")
+                .url(path)
                 .build();
 
         Call call = client.newCall(request);
@@ -164,8 +176,32 @@ public class CheckService extends Service {
         });
     }
 
+    public void updateOnlineMusic(String path){
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.get().url(path).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                Log.i("updateMusic","Failure"+e.getMessage());
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                //String result = response.body().string();
+                InputStream is = response.body().byteStream();
+
+                //InputStream inputStream = conn.getInputStream();
+                String result = StreamUtils.streamToString(is);
+                LanuchPage.setOnlinemusic(result);
+                Log.i("updateMusic","success"+ result);
+            }
+        });
+    }
+
     /****
-     * 请求网络并判断结果
+     * 登陆请求网络并判断结果
      * @param path
      * @return 判断成功与否
      */

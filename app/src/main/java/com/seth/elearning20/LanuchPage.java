@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
+import com.seth.elearning20.info.MusicList;
 import com.seth.elearning20.info.UserInfo;
 import com.seth.elearning20.service.CheckService;
 
@@ -17,8 +19,8 @@ import java.net.URLEncoder;
 
 public class LanuchPage extends Activity {
     private static boolean flag = false;
-
-
+    private static String updatePath = "http://115.159.71.92:8080/eLearningManager/music/findAll";
+    private static String onlinemusic;
 
     /*用于设置验证结果*/
     public static void setFlag(boolean Flag) {
@@ -33,12 +35,18 @@ public class LanuchPage extends Activity {
         String getName ;
         String getPassword ;
         UserInfo userInfo = UserInfo.getUserInfo(this);
+        CheckService service = new CheckService();
         if(userInfo!=null) {
             getName = userInfo.getName();
             getPassword = userInfo.getPassword();
         /*在service中获取网络验证*/
-            new CheckService().login(getpath(getName, getPassword), 1);
+            service.login(getpath(getName, getPassword), 1);
         }
+            service.updateOnlineMusic(updatePath);
+
+            service.updateNews();
+
+
         /*延时等待网络判断*/
         new Handler().postDelayed(new splashhandler(), 3000);
 
@@ -69,6 +77,8 @@ public class LanuchPage extends Activity {
     private class splashhandler implements Runnable {
         @Override
         public void run() {
+
+            MusicList.InitOnlineMusic(onlinemusic);
             if(flag)
                 startActivity(new Intent(getApplication(),FrontPage.class));
             else
@@ -77,5 +87,7 @@ public class LanuchPage extends Activity {
         }
     }
 
-
+    public static void setOnlinemusic(String onlinemusic) {
+        LanuchPage.onlinemusic = onlinemusic;
+    }
 }

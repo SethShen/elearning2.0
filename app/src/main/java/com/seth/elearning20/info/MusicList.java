@@ -9,11 +9,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.util.JsonReader;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.seth.elearning20.sqlite.SqlDao;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +26,7 @@ public class MusicList extends FragmentActivity {
     private static MusicList sMusicList;
     private static List<MusicInfo> mMusicInfos;
     private static List<MusicInfo> mRadioInfos;
+    private static List<MusicInfo> mOnlineInfos;
 
     public static MusicList get(Context context){
         if(sMusicList == null){
@@ -110,6 +114,65 @@ public class MusicList extends FragmentActivity {
         int i =mMusicInfos.get(position).getLikenum();
         mMusicInfos.get(position).setLikenum(i-1);
     }
+
+    public static List<MusicInfo> getOnlinMusic(){
+        if(mOnlineInfos!=null)
+            return mOnlineInfos;
+        else
+            return mRadioInfos;
+    }
+
+    public static void InitOnlineMusic(String mesg){
+
+        Log.i("updateMusic2","success"+ mesg);
+        try {
+            mOnlineInfos = getDataFromJson(mesg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /************
+     * 解析json中的数据
+     * @param mesg
+     * @return
+     * @throws IOException
+     */
+    private static List<MusicInfo> getDataFromJson(String mesg) throws IOException{
+        List<MusicInfo> onlineMusics = new ArrayList<>();
+        JsonReader reader = new JsonReader(new StringReader(mesg));
+
+        reader.beginArray();                //使用beginArray()来开始解析 [ 左边的第一个数组。
+        while(reader.hasNext()){
+            reader.beginObject();           //使用beginObject()来开始解析数组{中的第一个对象
+            MusicInfo music = new MusicInfo();
+            while(reader.hasNext()){
+                String tagName = reader.nextName();
+                if(tagName.equals("id"))
+                    music.setId(reader.nextLong());
+                else if(tagName.equals("name")) {
+                    String name = reader.nextString();
+                    Log.i("updateMusic2", name);
+                    music.setTitle(name);
+                }
+                else if(tagName.equals("signer"))
+                    music.setArtist(reader.nextString());
+                else if(tagName.equals("album")) {
+                    reader.nextNull();
+                    music.setAlbum(null);
+                }else
+                    reader.skipValue();
+            }
+            reader.endObject();
+            onlineMusics.add(music);
+            music = null;
+        }
+        reader.endArray();
+        return onlineMusics;
+    }
+
+
 }
 //    ContentResolver contentResolver = context.getContentResolver();
 //    Cursor mCursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,

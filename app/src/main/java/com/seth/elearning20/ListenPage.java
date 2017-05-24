@@ -34,7 +34,7 @@ public class ListenPage extends Activity {
     private static final String EXTRA_MUSIC_ID = "playerpage";
     private static final String EXTRA_MUSIC_TYPE = "play_type";
     private SeekBar mSeekBar;
-    private boolean isType;
+    private int isType;
     private boolean isPrepared;
     private boolean tag2 = false;
     private TextView mMusicTitle;
@@ -52,10 +52,10 @@ public class ListenPage extends Activity {
 
 
 
-    public static Intent newIntent(Context packageContext, int music_id, String url){
+    public static Intent newIntent(Context packageContext, int music_id, int type){
         Intent intent = new Intent(packageContext, ListenPage.class);
         intent.putExtra(EXTRA_MUSIC_ID, music_id);
-        intent.putExtra(EXTRA_MUSIC_TYPE,url);
+        intent.putExtra(EXTRA_MUSIC_TYPE,type);
 
         return intent;
     }
@@ -96,16 +96,21 @@ public class ListenPage extends Activity {
         setContentView(R.layout.activity_player);
         Intent intent = getIntent();
         position = (int)intent.getSerializableExtra(EXTRA_MUSIC_ID);
-        String type = intent.getStringExtra(EXTRA_MUSIC_TYPE);
+        int type = intent.getIntExtra(EXTRA_MUSIC_TYPE,0);
 
-        Log.i("111111",type);
-        isType = type.endsWith(".amr");
-        if(!isType)
+        //Log.i("musicType",type+"");
+        //isType = type.endsWith(".amr");
+        if(type==0)
             mMusicInfos = MusicList.get(this).getMusicInfos();
-        else
+        else if(type==1)
             mMusicInfos = MusicList.get(this).getmRadioInfos();
+        else
+            mMusicInfos = MusicList.getOnlinMusic();
+
+        isType = type;
         mMusicInfo = mMusicInfos.get(position);
         FindViewById();
+        mMusicService = new MusicService(this);
         bindServiceConnection();
         myListener();
 
